@@ -1,8 +1,13 @@
 from django.shortcuts import redirect, render
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm
 from .models import Profile, Dweet
 from .forms import DweetForm
 
 # Create your views here.
+
+@login_required
 def dashboard(request):
     # You fill DweetForm with the data that 
     # came in through the POST request
@@ -58,6 +63,25 @@ def profile(request, pk):
     context = { "profile": profile}
 
     return render(request, "dwitter/profile.html", context)
+
+
+def register(request):
+    if request.method == "POST":
+        new_user_form = UserCreationForm(request.POST)
+        if new_user_form.is_valid():
+            new_user_form.save()
+            messages.success(request, 'Account created successfully!')
+            return redirect("dwitter:login")
+
+    else:
+        new_user_form = UserCreationForm()
+    
+    context = {'register_form': new_user_form}
+    
+
+    return render(request, "account/register.html", context)
+
+
 
    
 

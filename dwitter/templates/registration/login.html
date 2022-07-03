@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> LOGIN </h1>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Login" />
+</form>
+
+<div>
+    Need an account? <a href={% url 'dwitter:register' %}>Register here </a>
+</div>
+
+<a href="{% url 'dwitter:dashboard' %}">Back to dashboard</a>
+
+
+{% endblock content %}
