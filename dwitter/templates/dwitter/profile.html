@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="column">
+  <div class="block">
+  <h1 class="title">{{ profile.user.username | upper }} tweets</h1>
+  <form method="POST">
+    {% csrf_token %}
+      <div class="buttons has-addons">
+          {% if profile in user.profile.follows.all %}
+          {% comment %} name is the key, value is either unfollow or follow, depending on
+          which button is clicked {% endcomment %}
+          <button class="button is-danger" name="follow" value="unfollow">Unfollow</button>
+          {% else %}
+          <button class="button is-success" name="follow" value="follow">Follow</button>
+          {% endif %}
+        </div>
+  </form>
+</div>
+
+  {% comment %} can't use user here bc it will only show the dweets of the logged in user,
+  not the profile of a specific user {% endcomment %}
+  {% for dweet in profile.user.dweets.all %}
+  <article class="message is-success">
+    <div class="message-header">
+      <p>{{dweet.created_at}}</p>
+    </div>
+    <div class="message-body">
+      {{ dweet.body}}
+    </div>
+  </article>
+  {% endfor %}
+</div>
+
+<div class="column is-one-quarter">
+    <div class="block">
+      <a href="{% url 'dwitter:profile_list' %}">
+        <button class="button is-dark is-outlined is-fullwidth">
+            All Profiles
+        </button>
+      </a>
+    </div>
+    
+    <div class="content">
+        <h4>{{ profile.user.username | capfirst}} follows</h4>
+        <ul>
+          {% for following in profile.follows.all %}
+            {% if not profile.user.username == following.user.username %}
+            <li><a href={% url "dwitter:profile" following.id %}>{{ following }}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+    </div>
+
+    <div class="content">
+        <h4>{{ profile.user.username | capfirst}} is followed by</h4>
+        <ul>
+          {% for follower in profile.followed_by.all %}
+            {% if not profile.user.username == follower.user.username %}
+            <li><a href={% url 'dwitter:profile' follower.id %}>{{ follower }} </a> </li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+    </div>
+
+    
+ 
+
+
+</div>
+
+{% endblock content %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="column">
+    
+    <div class="content">
+    {% for dweet in dweets %} 
+        <div class="box is-flex is-justify-content-space-between">
+            {{ dweet.body }}
+            <span class="is-small has-text-grey-light">
+                ({{ dweet.created_at }}) by <a href={% url 'dwitter:profile' dweet.user.profile.id %}>{{ dweet.user.username}}</a>
+            </span>
+        </div>
+    {% endfor %}
+    </div>
+    
+</div>
+
+<div class="column is-one-third">
+    <div class="block">
+        <a href="{% url 'dwitter:profile_list' %}">
+          <button class="button is-dark is-outlined is-fullwidth">
+              All Profiles
+          </button>
+        </a>
+    </div>
+
+    <div class="block">
+        <a href="{% url 'dwitter:profile' request.user.profile.id %}" >
+            <button class="button is-dark is-outlined is-fullwidth">
+                My Profile
+            </button>
+        </a>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p}}
+        <button class="button is-success is-fullwidth is-medium mt-5" type="submit">
+            Dweet
+        </button>
+    </form>
+</div>
+
+{% endblock content %}
