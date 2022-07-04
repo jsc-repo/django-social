@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
-<h1> LOGIN </h1>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Login" />
-</form>
+<section class="section">
+    <h1 class="title"> LOGIN </h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button class="button" type="submit" value="Login">Login</button>
+    </form>
 
-<div>
-    Need an account? <a href={% url 'dwitter:register' %}>Register here </a>
-</div>
-
-<a href="{% url 'dwitter:dashboard' %}">Back to dashboard</a>
-
+    <h4 class="mt-4">
+        Need an account? <a href={% url 'dwitter:register' %}>Register here </a>
+    </h4>
+</section>
 
 {% endblock content %}

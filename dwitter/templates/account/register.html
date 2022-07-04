@@ -1,20 +1,24 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
 {% block content %}
-    <h1> Register </h1>
+    <section class="section">
+        <h1 class="title"> Register </h1>
 
-    <div>
-        {% if messages %}
-           <ul>
-               {% for message in messages %}
-               <li>{{ message }}</li>
-               {% endfor %}
-           </ul>
-       {% endif %}
+        <div>
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
 
-        <form method="post" >
-            {% csrf_token %}
-            {{ register_form.as_p }}
-            <input type="submit" value="Register" />
-        </form>
-    </div>
+            <form method="post" >
+                {% csrf_token %}
+                {{ register_form|crispy}}
+                <button class="button is-success" type="submit" value="Register">Register</button>
+            </form>
+        </div>
+    </section>
 {% endblock content %}

@@ -43,7 +43,7 @@
         <p class="subtitle is-4 is-flex is-justify-content-space-between">
           Your tiny social network built with Django 
           <span class="is-size-5">
-            Hello {{user.username}}
+            Hello {{user.username |default:"Guest"}}
           </span>
         </p>
        
