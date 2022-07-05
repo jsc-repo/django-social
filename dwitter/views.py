@@ -1,7 +1,9 @@
-from django.shortcuts import redirect, render
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from django.urls import reverse
 from .models import Profile, Dweet
 from .forms import DweetForm
 
@@ -63,6 +65,20 @@ def profile(request, pk):
     context = { "profile": profile}
 
     return render(request, "dwitter/profile.html", context)
+
+
+def dweet_like(request, pk):
+    data = request.POST
+    dweet_id = data.get("dweet_id")
+    profile_id = data.get("profile")
+    dweet = get_object_or_404(Dweet, id=dweet_id)
+
+    if dweet.likes.filter(id=request.user.id).exists():
+        dweet.likes.remove(request.user)
+    else:
+        dweet.likes.add(request.user)
+    
+    return HttpResponseRedirect(reverse('dwitter:profile', args=[profile_id]))
 
 
 def register(request):

@@ -23,11 +23,27 @@
   <article class="message is-success">
     <div class="message-header">
       <p>{{dweet.created_at}}</p>
+      <p> Liked: {{ dweet.num_of_likes }} </p>
     </div>
     <div class="message-body">
       {{ dweet.body}}
     </div>
-  </article>
+
+    {% if user.is_authenticated %}
+  <form action={% url 'dwitter:dweet_like' dweet.id %} method="POST">
+    {% csrf_token %}
+    <input type="hidden" name="profile" value="{{profile.id}}" />
+    {% comment %} {% if post_is_liked %} {% endcomment %}
+    <button type="submit" name="dweet_id" value="{{dweet.id}}" class="button">Unlike</button>
+    {% comment %} {% else %} {% endcomment %}
+    <button type="submit" name="dweet_id" value="{{dweet.id}}" class="button">Like</button>
+    {% comment %} {% endif %} {% endcomment %}
+  </form>
+
+  {% else %}
+  <a class="button" href="{% url 'dwitter:login' %}?next={{request.path}}">Log in to like this article!</a><br>
+  {% endif %}  
+</article>
   {% endfor %}
 </div>
 
