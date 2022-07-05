@@ -9,6 +9,13 @@ from .forms import DweetForm
 
 # Create your views here.
 
+def index(request):
+    dweets = Dweet.objects.all()
+    context = {
+        "dweets": dweets
+    }
+    return render(request, 'dwitter/index.html', context)
+
 @login_required
 def dashboard(request):
     # You fill DweetForm with the data that 

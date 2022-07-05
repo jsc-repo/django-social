@@ -1,8 +1,9 @@
 from django.urls import path, include
-from .views import dashboard, dweet_like, profile_list, profile, register
+from .views import dashboard, dweet_like, profile_list, profile, register, index
 
 urlpatterns = [
-    path("", dashboard, name="dashboard"),
+    path("", index, name="index"),
+    path("dashboard", dashboard, name="dashboard"),
     path("register", register, name="register"),
     path("accounts/", include("django.contrib.auth.urls")),
     path("profile_list/", profile_list, name="profile_list"),
