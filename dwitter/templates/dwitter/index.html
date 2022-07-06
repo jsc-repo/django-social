@@ -5,11 +5,13 @@
     {% for dweet in dweets %}
     <article class="message is-success">
         <div class="message-header">
-        <p>{{dweet.created_at}} by {{dweet.user.username}}</p>
-        <p> Liked: {{ dweet.num_of_likes }} </p>
+            <p>{{dweet.created_at}} by <a style="text-decoration:none" href={% url 'dwitter:profile' dweet.user.profile.id %}>{{dweet.user.username}}</a></p>
+            <p> Liked: {{ dweet.num_of_likes }} </p>
         </div>
         <div class="message-body">
-        {{ dweet.body}}
+            <a style="text-decoration:none" href={% url 'dwitter:dweet_detail' username=dweet.user.username pk=dweet.id %}>
+                {{ dweet.body}}
+            </a>
         </div> 
     </article>
     {% endfor %}

@@ -74,6 +74,23 @@ def profile(request, pk):
     return render(request, "dwitter/profile.html", context)
 
 
+def dweet_detail(request, pk, **kwargs):
+    get_dweet = get_object_or_404(Dweet,id=pk)
+    liked = False
+
+    if get_dweet.likes.filter(id=request.user.id).exists():
+        liked = True
+
+
+    context = {
+        "dweet": get_dweet,
+        "liked": liked
+    }
+
+    return render(request, "dwitter/dwitter_detailView.html", context)
+
+
+
 def dweet_like(request, pk):
     data = request.POST
     dweet_id = data.get("dweet_id")
