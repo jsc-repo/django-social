@@ -30,19 +30,19 @@
     </div>
 
     {% if user.is_authenticated %}
-  <form action={% url 'dwitter:dweet_like' dweet.id %} method="POST">
-    {% csrf_token %}
-    <input type="hidden" name="profile" value="{{profile.id}}" />
-    {% comment %} {% if post_is_liked %} {% endcomment %}
-    <button type="submit" name="dweet_id" value="{{dweet.id}}" class="button">Unlike</button>
-    {% comment %} {% else %} {% endcomment %}
-    <button type="submit" name="dweet_id" value="{{dweet.id}}" class="button">Like</button>
-    {% comment %} {% endif %} {% endcomment %}
-  </form>
+    <form action={% url 'dwitter:dweet_like' dweet.id %} method="POST">
+      {% csrf_token %}
+      <input type="hidden" name="profile" value="{{profile.id}}" />
+      {% if user in dweet.likes %}
+      <button type="submit" name="dweet_id" value="{{dweet.id}}" class="button">Unlike</button>
+      {% else %}
+      <button type="submit" name="dweet_id" value="{{dweet.id}}" class="button">Like</button>
+      {% endif %}
+    </form>
 
-  {% else %}
-  <a class="button" href="{% url 'dwitter:login' %}?next={{request.path}}">Log in to like this article!</a><br>
-  {% endif %}  
+    {% else %}
+    <a class="button" href="{% url 'dwitter:login' %}?next={{request.path}}">Log in to like this article!</a><br>
+    {% endif %}  
 </article>
   {% endfor %}
 </div>

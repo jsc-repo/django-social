@@ -1,4 +1,3 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -58,6 +57,8 @@ def profile(request, pk):
         missing_profile.save()
 
     profile = Profile.objects.get(pk=pk)
+    profile_user_dweets = profile.user.dweets.all()
+    
     if request.method == "POST":
         current_user_profile = request.user.profile
         # request.POST is raw html
@@ -68,6 +69,9 @@ def profile(request, pk):
         elif action=="unfollow":
             current_user_profile.follows.remove(profile)
         current_user_profile.save()
+    
+    
+    # liked = False
     
     context = { "profile": profile}
 
@@ -102,7 +106,9 @@ def dweet_like(request, pk):
     else:
         dweet.likes.add(request.user)
     
-    return HttpResponseRedirect(reverse('dwitter:profile', args=[profile_id]))
+    return redirect('dwitter:dweet_detail', username=dweet.user.username, pk=dweet_id)
+
+    # path("<str:username>/dweet/<int:pk>", dweet_detail, name="dweet_detail"),
 
 
 def register(request):

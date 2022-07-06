@@ -9,7 +9,21 @@
         </div>
         <div class="message-body">
         {{ dweet.body}}
-        </div> 
+        </div>
+        
+        {% if user.is_authenticated %}
+        <form action={% url 'dwitter:dweet_like' dweet.id %} method="POST">
+        {% csrf_token %}
+        {% if liked %}
+        <button type="submit" name="dweet_id" value="{{dweet.id}}" class="button">Unlike</button>
+        {% else %}
+        <button type="submit" name="dweet_id" value="{{dweet.id}}" class="button">Like</button>
+        {% endif %}
+        </form>
+
+        {% else %}
+        <a href="{% url 'dwitter:login' %}?next={{request.path}}">Log in to like this article!</a><br>
+        {% endif %}  
     </article>
 </div>
 
