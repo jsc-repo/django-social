@@ -1,5 +1,6 @@
-# django-social
-light twitter clone
+# django-social 
+
+Light twitter clone where users can sign up/login and can add/edit/delete their tweets. User can also view other user's tweets and like/unlike their posts. There is also a follower system implemented as well.
 
 
 1. Clone repository
